@@ -30,8 +30,9 @@ build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 
-node_modules
+/frontend/node_modules
 /dist
+/frontend/node/
 
 # local env files
 .env.local
@@ -50,4 +51,6 @@ pnpm-debug.log*
 *.njsproj
 *.sln
 *.sw?
+
+/backend/src/main/resources/public/
 
