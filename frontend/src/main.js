@@ -11,7 +11,7 @@ Vue.use(IconsPlugin)
 Vue.config.productionTip = false
 
 Vue.prototype.$http = axios
-axios.defaults.baseURL = 'http://localhost:8081'
+axios.defaults.baseURL = 'http://localhost:8080/api'
 
 new Vue({
   router,

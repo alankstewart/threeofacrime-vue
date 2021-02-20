@@ -3,7 +3,9 @@ package alankstewart.threeofacrime.web;
 import alankstewart.threeofacrime.model.Suspect;
 import alankstewart.threeofacrime.model.SuspectCard;
 import alankstewart.threeofacrime.service.ThreeOfACrimeService;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
@@ -12,7 +14,9 @@ import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toList;
 
+@CrossOrigin("http://localhost:8081")
 @RestController
+@RequestMapping("/api")
 public class ThreeOfACrimeController {
 
     @Resource

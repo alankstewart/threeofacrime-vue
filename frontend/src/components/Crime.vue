@@ -1,6 +1,6 @@
 <template>
 <div class="container">
-    <h1>Three Of A Crime</h1>
+    <h2>Three Of A Crime</h2>
     <div id="suspects" role="group">
     <b-form-group label="Suspects">
           <b-form-checkbox-group
@@ -68,35 +68,38 @@
 </template>
 
 <script>
-//import axios from 'axios';
-
 export default {
   name: 'ThreeOfACrime',
   data() {
     return {
       selectedSuspected: [],
       suspects: [],
-//      suspects: [
-//        { text: "HUMPTY BUMPTY", value: "1" },
-//        { text: "JONNY CORTEX", value: "2" },
-//        { text: "KID CASSIDY", value: "3" },
-//        { text: "LOOSE-EYE LENNY", value: "4" },
-//        { text: "LOUIE ST. LOUIS", value: "5" },
-//        { text: "NO NECK NICK", value: "6" },
-//        { text: "PENCIL TOP", value: "7" }
-//       ],
+      errors: [],
+      suspectsLocal: [
+       { text: "HUMPTY BUMPTY", value: "HUMPTY_BUMPTY" },
+       { text: "JONNY CORTEX", value: "JONNY_CORTEX" },
+       { text: "KID CASSIDY", value: "KID_CASSIDY" },
+       { text: "LOOSE-EYE LENNY", value: "LOOSE_EYE_LENNY" },
+       { text: "LOUIE ST. LOUIS", value: "LOUIE_ST_LOUIS" },
+       { text: "NO NECK NICK", value: "NO_NECK_NICK" },
+       { text: "PENCIL TOP", value: "PENCIL_TOP" }
+      ],
         selectedMatch: ''
       }
     },
-    created() {
-        this.$http.get("/suspects").then(response => {
+    async created() {
+        await this.$http.get("/suspects").then(response => {
            this.suspects = response.data;
            console.log(this.suspects);
+        }).catch(e => {
+          this.errors.push(e)
+          console.log(this.errors)
+          this.suspects = this.suspectsLocal
         })
-      },
-  methods: {
+    },
+    methods: {
       clearSelections: function () {
-        this.selectedSuspected = [];
+        this.selectedSuspected = []
       }
   }
 }
