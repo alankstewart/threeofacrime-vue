@@ -1,5 +1,7 @@
 package alankstewart.threeofacrime.model;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+
 import java.util.Arrays;
 
 public enum Suspect {
@@ -22,6 +24,7 @@ public enum Suspect {
         return displayName;
     }
 
+    @JsonCreator
     public static Suspect from(final String suspect) {
         return Arrays.stream(values())
                 .filter(s -> s.name().equalsIgnoreCase(suspect.trim()) || s.displayName.equalsIgnoreCase(suspect.trim()))

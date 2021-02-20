@@ -6,7 +6,7 @@
           <b-form-checkbox-group
             size="sm"
             id="suspects"
-            v-model="selectedSuspected"
+            v-model="selectedSuspects"
             :options="suspects"
             name="suspects">
           </b-form-checkbox-group>
@@ -22,18 +22,18 @@
     </div>
     <br>
     <br>
-    <button id="submit" type="button" class="btn btn-primary" disabled>Match Suspects</button>
+    <button id="submit" type="button" class="btn btn-primary" v-on:click="matchSuspects">Match Suspects</button>
     <button id="clear" type="button" class="btn btn-success" v-on:click="clearSelections">Clear Selections</button>
     <button id="startNewGame" type="button" class="btn btn-warning">Start New Game</button>
     <br>
     <br>
     <div class="card text-white bg-info">
         <div class="card-header">Possible Suspect Cards</div>
-        <div class="card-body">
-            <div id="results"></div>
+        <div id="results" class="card-body">
+            <div v-for="suspectCard in results" v-bind:key="suspectCard.id">{{suspectCard}}</div>
         </div>
     </div>
-    <div id="fifty-fifty" class="alert alert-warning" hidden>
+    <div id="fifty-fifty" v-if="results.length == 2" class="alert alert-warning">
         <strong>Warning!</strong> 50-50
     </div>
     <div class="modal fade" id="confirm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -72,8 +72,9 @@ export default {
   name: 'ThreeOfACrime',
   data() {
     return {
-      selectedSuspected: [],
+      selectedSuspects: [],
       suspects: [],
+      results: [],
       errors: [],
       suspectsLocal: [
        { text: "HUMPTY BUMPTY", value: "HUMPTY_BUMPTY" },
@@ -84,11 +85,11 @@ export default {
        { text: "NO NECK NICK", value: "NO_NECK_NICK" },
        { text: "PENCIL TOP", value: "PENCIL_TOP" }
       ],
-        selectedMatch: ''
+      selectedMatch: ''
       }
     },
     async created() {
-        await this.$http.get("/suspects").then(response => {
+        await this.$http.get('/suspects').then(response => {
            this.suspects = response.data;
            console.log(this.suspects);
         }).catch(e => {
@@ -99,7 +100,19 @@ export default {
     },
     methods: {
       clearSelections: function () {
-        this.selectedSuspected = []
+        this.selectedSuspects = []
+        this.results = []
+
+      },
+      matchSuspects: function () {
+          const data = { "suspects": this.selectedSuspects, "matches" : this.selectedMatch}
+          this.$http.post('/play', data).then(response => {
+            this.results = response.data
+            console.log(this.results.length )
+        }).catch(e => {
+          this.errors.push(e)
+          console.log("Errors: " + this.errors)
+        })
       }
   }
 }
