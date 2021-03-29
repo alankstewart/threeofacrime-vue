@@ -4,7 +4,7 @@ import alankstewart.threeofacrime.model.Suspect;
 
 import java.util.List;
 
-public class SuspectMatchDto {
+public class SuspectMatch {
 
     private List<Suspect> suspects;
     private int matches;
